@@ -713,6 +713,28 @@ void handleOverlayWidgetChange(u8 screen, bool visible)
 #endif
 }
 
+// Updates several GUI elements that display pattern
+// related info to the new pattern
+void updateGuiToNewPattern(int newpattern)
+{
+	// Update pattern length slider
+	nsptnlen->setValue(song->getPatternLength(newpattern));
+
+	buttonpotdown->set_enabled(newpattern > 0);
+	buttonpotup->set_enabled(newpattern < MAX_PATTERNS - 1);
+}
+
+void updateGuiToCurrentPattern(void)
+{
+	int pattern = song->getPotEntry(state->potpos);
+
+	char str[3];
+	snprintf(str, sizeof(str), "%2x", pattern);
+	lbpot->set(state->potpos, str);
+
+	updateGuiToNewPattern(pattern);
+}
+
 void envSyncSustain(Instrument *inst)
 {
 	bool s;
@@ -919,14 +941,10 @@ void setSong(Song *newsong)
 
 	updateLabelChannels();
 	updateTempoAndBpm();
-	buttonpotdown->set_enabled(song->getPotEntry(state->potpos) > 0);
-	buttonpotup->set_enabled(song->getPotEntry(state->potpos) <
-	                         MAX_PATTERNS - 1);
 	buttonmorechannels->set_enabled(song->getChannels() < MAX_CHANNELS);
 	buttonlesschannels->set_enabled(song->getChannels() > 1);
 	handlePotLenChange();
-	nsptnlen->setValue(
-	    song->getPatternLength(song->getPotEntry(state->potpos)));
+	updateGuiToCurrentPattern();
 	nsrestartpos->setValue(song->getRestartPosition());
 	tbqueuelock->setState(false);
 	tbpotloop->setState(false);
@@ -1617,17 +1635,6 @@ void setRecordMode(bool is_on)
 	}
 }
 
-// Updates several GUI elements that display pattern
-// related info to the new pattern
-void updateGuiToNewPattern(u8 newpattern)
-{
-	// Update pattern length slider
-	nsptnlen->setValue(song->getPatternLength(newpattern));
-
-	buttonpotdown->set_enabled(newpattern > 0);
-	buttonpotup->set_enabled(newpattern < MAX_PATTERNS - 1);
-}
-
 // Callback called from song when the pot element changes during playback
 void handlePotPosChangeFromSong(u16 newpotpos)
 {
@@ -1697,17 +1704,8 @@ void handlePotDec(void)
 		ntxm_flush_dcache();
 
 		redraw_main_requested = true;
-
-		// Update pattern length slider
-		nsptnlen->setValue(
-		    song->getPatternLength(song->getPotEntry(state->potpos)));
 	}
-	char str[3];
-	snprintf(str, sizeof(str), "%2x", pattern);
-	lbpot->set(state->potpos, str);
-	buttonpotdown->set_enabled(song->getPotEntry(state->potpos) > 0);
-	buttonpotup->set_enabled(song->getPotEntry(state->potpos) <
-	                         MAX_PATTERNS - 1);
+	updateGuiToCurrentPattern();
 	setHasUnsavedChanges(true);
 }
 
@@ -1728,17 +1726,8 @@ void handlePotInc(void)
 		ntxm_flush_dcache();
 
 		redraw_main_requested = true;
-
-		// Update pattern length slider
-		nsptnlen->setValue(
-		    song->getPatternLength(song->getPotEntry(state->potpos)));
 	}
-	char str[3];
-	snprintf(str, sizeof(str), "%2x", pattern);
-	lbpot->set(state->potpos, str);
-	buttonpotdown->set_enabled(song->getPotEntry(state->potpos) > 0);
-	buttonpotup->set_enabled(song->getPotEntry(state->potpos) <
-	                         MAX_PATTERNS - 1);
+	updateGuiToCurrentPattern();
 	setHasUnsavedChanges(true);
 }
 
