@@ -36,6 +36,7 @@ Improvements:
 Fixes:
 
 - [#152] fixed inconsistent sample preview looping behaviour
+- [#283] fixed pattern "del" button being incorrectly greyed out at times
 - [#148] fixed sustain envelope not working in certain situations
 - fixed DSi mode frequency setting not being applied on load
 - fixed default sample/instrument filenames containing prohibited characters

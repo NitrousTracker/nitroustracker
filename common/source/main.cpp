@@ -846,11 +846,19 @@ void handleInstChangeReset(u16 newinst)
 	handleInstChange(newinst, true);
 }
 
-void updateLabelSongLen(void)
+void handlePotLenChange(void)
 {
-	/* char labelstr[12];
-	snprintf(labelstr, 12, "songlen:%2d", song->getPotLength());
-	labelsonglen->setCaption(labelstr); */
+	if (state->potpos >= song->getPotLength()) {
+		state->potpos = song->getPotLength() - 1;
+	}
+
+	if (song->getRestartPosition() >= song->getPotLength()) {
+		song->setRestartPosition(song->getPotLength() - 1);
+		nsrestartpos->setValue(song->getRestartPosition());
+		ntxm_flush_dcache();
+	}
+
+	buttondel->set_enabled(song->getPotLength() > 1);
 }
 
 void updateLabelChannels(void)
@@ -910,14 +918,13 @@ void setSong(Song *newsong)
 	handleInstChange(0);
 
 	updateLabelChannels();
-	updateLabelSongLen();
 	updateTempoAndBpm();
 	buttonpotdown->set_enabled(song->getPotEntry(state->potpos) > 0);
 	buttonpotup->set_enabled(song->getPotEntry(state->potpos) <
 	                         MAX_PATTERNS - 1);
 	buttonmorechannels->set_enabled(song->getChannels() < MAX_CHANNELS);
 	buttonlesschannels->set_enabled(song->getChannels() > 1);
-	buttondel->set_enabled(song->getPotLength() > 1);
+	handlePotLenChange();
 	nsptnlen->setValue(
 	    song->getPatternLength(song->getPotEntry(state->potpos)));
 	nsrestartpos->setValue(song->getRestartPosition());
@@ -1741,13 +1748,12 @@ void handlePotIns(void)
 	if (!song->potIns(state->potpos, song->getPotEntry(state->potpos)))
 		return;
 
-	buttondel->set_enabled(song->getPotLength() > 1);
+	handlePotLenChange();
 
 	// TODO: turn into undo operation
 	action_buffer->clear();
 	ntxm_flush_dcache();
 	lbpot->ins(lbpot->getidx(), lbpot->get(lbpot->getidx()));
-	updateLabelSongLen();
 	setHasUnsavedChanges(true);
 }
 
@@ -1758,23 +1764,12 @@ void handlePotDel(void)
 	}
 
 	song->potDel(state->potpos);
-	buttondel->set_enabled(song->getPotLength() > 1);
+	handlePotLenChange();
 
 	// TODO: turn into undo operation
 	action_buffer->clear();
 	ntxm_flush_dcache();
 
-	if (state->potpos >= song->getPotLength()) {
-		state->potpos = song->getPotLength() - 1;
-	}
-
-	updateLabelSongLen();
-
-	if (song->getRestartPosition() >= song->getPotLength()) {
-		song->setRestartPosition(song->getPotLength() - 1);
-		nsrestartpos->setValue(song->getRestartPosition());
-		ntxm_flush_dcache();
-	}
 	setHasUnsavedChanges(true);
 }
 
@@ -1789,6 +1784,8 @@ void handlePtnClone(void)
 	u16 ptnlength = song->getPatternLength(song->getPotEntry(state->potpos));
 	song->addPattern(ptnlength);
 	song->potIns(state->potpos + 1, newidx);
+
+	handlePotLenChange();
 
 	Cell **srcpattern = song->getPattern(song->getPotEntry(state->potpos));
 	Cell **destpattern = song->getPattern(newidx);
@@ -1806,7 +1803,6 @@ void handlePtnClone(void)
 	sprintf(numberstr, "%2x", newidx);
 	lbpot->ins(lbpot->getidx() + 1, numberstr);
 
-	updateLabelSongLen();
 	setHasUnsavedChanges(true);
 }
 
@@ -1938,7 +1934,6 @@ void zapPatterns(void)
 	lbpot->clear();
 	lbpot->add(" 0");
 
-	updateLabelSongLen();
 	updateLabelChannels();
 	updateGuiToNewPattern(0);
 
@@ -1946,6 +1941,8 @@ void zapPatterns(void)
 	state->setPlaybackRow(0);
 	state->setCursorRow(0);
 	state->channel = 0;
+
+	handlePotLenChange();
 
 	redraw_main_requested = false;
 	drawMainScreen();
