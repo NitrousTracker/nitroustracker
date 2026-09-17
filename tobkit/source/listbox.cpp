@@ -30,9 +30,7 @@ ListBox::ListBox(u16 _x, u16 _y, u16 _width, u16 _height, Screen *_screen,
       activeelement(0), highlightedelement(-1), scrollpos(0),
       show_numbers(_show_numbers), zero_offset(_zero_offset)
 {
-	for (int i = 0; i < n_items; ++i) {
-		elements.push_back("");
-	}
+	clear(n_items);
 	onChange = 0;
 }
 

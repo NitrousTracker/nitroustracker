@@ -76,9 +76,9 @@ protected:
 	void (*onChange)(u16);
 
 	u8 buttonstate;
-	u16 activeelement;
+	s16 activeelement;
 	s32 highlightedelement;
-	u16 scrollpos;
+	s16 scrollpos;
 	u16 scrollthingypos, scrollthingyheight, pen_y_on_scrollthingy;
 	bool show_numbers, zero_offset; // zero_offset: If false, offset=1
 	std::vector<std::string> elements;
