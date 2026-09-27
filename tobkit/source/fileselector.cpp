@@ -255,7 +255,6 @@ void FileSelector::read_directory_contents(void)
 	}
 
 	DIR *dir;
-	struct stat filestats;
 
 	if ((dir = opendir(current_directory.c_str())) == NULL) {
 		printf("Dir read error!\n");
@@ -270,6 +269,7 @@ void FileSelector::read_directory_contents(void)
 			newfile.name = direntry->d_name;
 			newfile.name_with_path = current_directory + direntry->d_name;
 #ifndef HAVE_DIRENT_D_TYPE
+			struct stat filestats;
 			int stat_res = stat(newfile.name_with_path.c_str(), &filestats);
 			if (stat_res != -1) {
 				newfile.is_dir = S_ISDIR(filestats.st_mode);

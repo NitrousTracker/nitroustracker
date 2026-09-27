@@ -2450,9 +2450,9 @@ void handleThemeTypeChange(int type)
 void handleThemeButton(void)
 {
 	strncpy(last_themepath, settings->getThemePath(), SETTINGS_FILENAME_LEN);
-	fbtheme = new tobkit::ThemeSelectorBox(sub_screen, handleThemeChosen,
-	                                       handleThemeApply, handleThemeReset,
-	                                       handleThemeCancel, handleThemeTypeChange);
+	fbtheme = new tobkit::ThemeSelectorBox(
+	    sub_screen, handleThemeChosen, handleThemeApply, handleThemeReset,
+	    handleThemeCancel, handleThemeTypeChange);
 	std::string themepath_(settings->getThemePath());
 	fbtheme->setDir(themepath_.substr(0, themepath_.find_last_of("/")));
 	gui->registerOverlayWidget(fbtheme, 0, SUB_SCREEN);
@@ -3016,7 +3016,8 @@ void handleOutputFreqChange(int freq)
 #ifdef NT_PLATFORM_NDS
 	soundExtSetFrequency(freq ? 47 : 32);
 #else
-	CommandSetPlaybackFrequency(freq ? NTXMSOUND_SAMPLE_RATE_47K : NTXMSOUND_SAMPLE_RATE_32K);
+	CommandSetPlaybackFrequency(freq ? NTXMSOUND_SAMPLE_RATE_47K
+	                                 : NTXMSOUND_SAMPLE_RATE_32K);
 #endif
 }
 
@@ -4157,7 +4158,8 @@ __attribute__((optimize("-Os"))) void setupGUI(bool dldi_enabled)
 		buttonrenamesong->setCaption("...");
 		buttonrenamesong->registerPushCallback(showTypewriterForSongRename);
 
-		buttonzap = new Button(tabbox_width - 34, below_pot_y2 + 1, 33, 14, sub_screen);
+		buttonzap =
+		    new Button(tabbox_width - 34, below_pot_y2 + 1, 33, 14, sub_screen);
 		buttonzap->setCaption("zap!");
 		buttonzap->registerPushCallback(handleZap);
 

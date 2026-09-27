@@ -32,11 +32,13 @@ typedef u16 tobkit_pixel_t;
 #ifdef __cplusplus
 #include <string>
 
-namespace tobkit {
-	static inline bool IsPathBuiltin(std::string path) {
-		return path.starts_with("nitro:/");
-	}
+namespace tobkit
+{
+static inline bool IsPathBuiltin(std::string path)
+{
+	return path.starts_with("nitro:/");
 }
+} // namespace tobkit
 #endif
 
 #endif

@@ -716,7 +716,7 @@ void SampleDisplay::draw(void)
 
 	s32 lastmax = 0, lastmin = 0;
 
-	u32 offsetpos = sampleToPixel(offset_guide_pos);
+	s32 offsetpos = sampleToPixel(offset_guide_pos);
 
 	if (smp->is16bit() == true) {
 

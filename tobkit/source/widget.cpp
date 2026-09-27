@@ -32,8 +32,8 @@ using namespace tobkit;
 Widget::Widget(u16 _x, u16 _y, u16 _width, u16 _height, Screen *_screen,
                bool _visible, bool _occluded)
     : x(_x), y(_y), width(_width), height(_height), enabled(true),
-      do_overdraw(true), screen(_screen), visible(_visible),
-      occluded(_occluded), theme(nullptr), bgcolor(0)
+      do_overdraw(true), screen(_screen), theme(nullptr), bgcolor(0),
+      visible(_visible), occluded(_occluded)
 {
 }
 
@@ -210,7 +210,7 @@ void Widget::drawSmallChar(u8 c, u16 cx, u16 cy, u16 col)
 ITCM_CODE
 void Widget::drawBox(u16 tx, u16 ty, u16 tw, u16 th, u16 col)
 {
-	u32 i, j;
+	int i, j;
 	for (i = 0; i < tw; ++i) {
 		drawPixel(i + tx, ty, col);
 		drawPixel(i + tx, ty + th - 1, col);

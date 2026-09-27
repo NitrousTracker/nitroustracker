@@ -49,7 +49,7 @@ Settings::Settings(char *launch_path, bool use_fat)
 			snprintf(launchpath, SETTINGS_FILENAME_LEN, "fat:%s", launch_path);
 		} else
 #endif
-		strlcpy(launchpath, launch_path, SETTINGS_FILENAME_LEN);
+			strlcpy(launchpath, launch_path, SETTINGS_FILENAME_LEN);
 	} else {
 #if defined(NT_PLATFORM_NDS) || defined(NT_PLATFORM_3DS)
 		strcpy(launchpath, "fat:/");

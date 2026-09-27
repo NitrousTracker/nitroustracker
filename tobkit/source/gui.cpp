@@ -234,14 +234,11 @@ void GUI::drawMainScreen(void)
 
 void GUI::drawSubScreen(void)
 {
-	u8 visible = 0;
-
 	std::vector<Widget *>::reverse_iterator w_it;
 
 	for (w_it = widgets_sub.rbegin(); w_it != widgets_sub.rend(); ++w_it) {
 		if ((*w_it)->is_visible() && !(*w_it)->is_occluded()) {
 			(*w_it)->pleaseDraw();
-			visible++;
 		}
 	}
 

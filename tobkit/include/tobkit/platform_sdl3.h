@@ -45,11 +45,13 @@ typedef u16 tobkit_pixel_t;
 #ifdef __cplusplus
 #include <string>
 
-namespace tobkit {
-	static inline bool IsPathBuiltin(std::string path) {
-		return false;
-	}
+namespace tobkit
+{
+static inline bool IsPathBuiltin(std::string path)
+{
+	return false;
 }
+} // namespace tobkit
 #endif
 
 #endif

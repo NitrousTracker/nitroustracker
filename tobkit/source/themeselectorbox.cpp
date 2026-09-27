@@ -38,16 +38,16 @@ using namespace tobkit;
 
 ThemeSelectorBox::ThemeSelectorBox(Screen *_screen, void (*_onSelect)(File),
                                    void (*_onOk)(void), void (*_onReset)(void),
-                                   void (*_onCancel)(void), void (*_onTypeChange)(int))
+                                   void (*_onCancel)(void),
+                                   void (*_onTypeChange)(int))
     : Widget((_screen->getWidth() - THEMESELBOX_WIDTH) / 2,
 #if defined(NT_PLATFORM_NDS)
-             153  - THEMESELBOX_HEIGHT,
+             153 - THEMESELBOX_HEIGHT,
 #else
-			 (_screen->getHeight() - THEMESELBOX_HEIGHT) / 2,
+             (_screen->getHeight() - THEMESELBOX_HEIGHT) / 2,
 #endif
-             THEMESELBOX_WIDTH,
-             THEMESELBOX_HEIGHT, _screen),
-    changingtype(false)
+             THEMESELBOX_WIDTH, THEMESELBOX_HEIGHT, _screen),
+      changingtype(false)
 {
 	title = "choose a theme";
 
@@ -55,7 +55,8 @@ ThemeSelectorBox::ThemeSelectorBox(Screen *_screen, void (*_onSelect)(File),
 
 	rbbuiltin = new RadioButton(x + 10, y + 24, 60, 14, _screen, rbglocation);
 	rbbuiltin->setCaption("builtin");
-	rbexternal = new RadioButton(x + (THEMESELBOX_WIDTH / 2), y + 24, 60, 14, _screen, rbglocation);
+	rbexternal = new RadioButton(x + (THEMESELBOX_WIDTH / 2), y + 24, 60, 14,
+	                             _screen, rbglocation);
 	rbexternal->setCaption("external");
 
 	rbglocation->registerChangeCallback(_onTypeChange);
@@ -109,7 +110,8 @@ void ThemeSelectorBox::setDir(std::string dir)
 		gui.draw();
 	}
 	if (rbglocation && !changingtype) {
-		int newlocationtype = IsPathBuiltin(dir) ? THEMESELBOX_BUILTIN : THEMESELBOX_EXTERNAL;
+		int newlocationtype =
+		    IsPathBuiltin(dir) ? THEMESELBOX_BUILTIN : THEMESELBOX_EXTERNAL;
 		if (newlocationtype != (rbexternal->getActive() ? 1 : 0)) {
 			changingtype = true;
 			rbglocation->setActive(newlocationtype);

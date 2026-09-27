@@ -11,21 +11,19 @@
 
 #ifndef HAVE_STRLCPY
 
-size_t strlcpy(
-    char *restrict dst,
-    const char *restrict src,
-    size_t dstsize)
+size_t strlcpy(char *restrict dst, const char *restrict src, size_t dstsize)
 {
-    size_t needed = 0;
-    while(needed < dstsize && (dst[needed] = src[needed]))
-        needed++;
+	size_t needed = 0;
+	while (needed < dstsize && (dst[needed] = src[needed]))
+		needed++;
 
-    while(src[needed++]);
+	while (src[needed++])
+		;
 
-    if (needed > dstsize && dstsize)
-      dst[dstsize - 1] = 0;
+	if (needed > dstsize && dstsize)
+		dst[dstsize - 1] = 0;
 
-    return needed;
+	return needed;
 }
 
 #endif

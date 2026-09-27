@@ -30,6 +30,7 @@ bool PlatformInitFilesystem(void)
 	if (!fatInitDefault())
 		return false;
 	bool unused = nitroFSInit(NULL);
+	(void)unused;
 	return true;
 }
 
@@ -107,6 +108,7 @@ bool PlatformInit(int argc, char *argv[])
 	// Setup text
 	PrintConsole *console = consoleInit(NULL, 0, BgType_Text4bpp,
 	                                    BgSize_T_256x256, 4, 0, true, true);
+	(void)console;
 #ifdef DEBUG
 	consoleArm7Setup(console, 1024);
 #endif
