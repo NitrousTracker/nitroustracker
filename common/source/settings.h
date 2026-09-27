@@ -39,8 +39,10 @@
 #define SETTINGS_FILENAME_LEN 4096
 #endif
 
-#if defined(NT_PLATFORM_NDS) || defined(NT_PLATFORM_3DS)
+#if defined(NT_PLATFORM_NDS)
 #define SETTINGS_ROOT_PATH "fat:/"
+#elif defined(NT_PLATFORM_3DS)
+#define SETTINGS_ROOT_PATH "sdmc:/"
 #else
 #define SETTINGS_ROOT_PATH "/"
 #endif
