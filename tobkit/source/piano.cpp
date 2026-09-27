@@ -230,14 +230,17 @@ void Piano::hideKeyLabels(void)
 void Piano::setInMappingMode(bool instmap)
 {
 	mapping_instrument = instmap;
-	u16 col = theme->col_signal & ~RGB5A1_ALPHA_BIT;
-	if (!instmap) {
-		drawHLine(0, height - 1, width, theme->col_piano_half_col1);
-		drawVLine(0, 1, height - 1, theme->col_piano_half_col2);
-		drawVLine(width - 1, 1, height - 1, theme->col_piano_half_col1);
+#ifdef NT_PLATFORM_NDS
+	u16 col = mapping_instrument ? (theme->col_signal | RGB5A1_ALPHA_BIT)
+	                             : (theme->col_signal & ~RGB5A1_ALPHA_BIT);
+	drawBox(0, 1, width, height - 1, col);
+#else
+	if (instmap) {
+		drawBox(0, 1, width, height - 1, theme->col_signal);
+	} else {
+		draw();
 	}
-	drawBox(0, 1, width, height - 1,
-	        mapping_instrument ? col | RGB5A1_ALPHA_BIT : col);
+#endif
 }
 
 void Piano::setKeyLabel(u8 key, char label)
