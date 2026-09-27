@@ -314,6 +314,10 @@ void EnvelopeEditor::addPoint(int shift)
 	if (n_points == max_points)
 		return;
 
+	// pressing "add point" if draw mode has not yet been engaged by the stylus
+	// should disable draw mode (#284)
+	draw_mode = false;
+
 	n_points++;
 
 	for (int p = n_points - 1; p > active_point; --p) {
