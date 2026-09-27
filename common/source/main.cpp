@@ -303,6 +303,7 @@ void stopPlay(void);
 void setHasUnsavedChanges(bool unsaved);
 void handleClearFx(void);
 void updateSampleOffsetGuide(void);
+void handleToggleEffectsVisibility(bool on);
 
 #include "debug_helpers.h"
 
@@ -354,10 +355,10 @@ void drawSampleNumbers(void)
 
 void updateKeyLabels(void)
 {
-	if (!kb->is_visible())
-		return;
+	if (tbmultisample->getState() || state->map_samples) {
+		if (fxkb->is_visible())
+			handleToggleEffectsVisibility(false);
 
-	if (state->map_samples) {
 		drawSampleNumbers();
 		kb->showKeyLabels();
 	} else {
@@ -2791,18 +2792,6 @@ void handleToggleScrollLock(bool on)
 	handleLoopToggle(tbpotloop->getState());
 }
 
-void handleToggleMultiSample(bool on)
-{
-	multisamp_from_mapsamp = false;
-
-	if (!on) {
-		handleToggleMapSamples(false);
-		tbmapsamples->setState(false);
-	}
-
-	setMultisamplesEnabled(on);
-}
-
 void showTypewriterForSampleRename(void)
 {
 	Instrument *inst = song->getInstrument(lbinstruments->getidx());
@@ -3547,11 +3536,6 @@ void saveConfig(void)
 void setMultisamplesEnabled(bool show)
 {
 	if (show) {
-		if (fxkb->is_visible())
-			handleToggleEffectsVisibility(false);
-
-		drawSampleNumbers();
-		kb->showKeyLabels();
 		if (lbsamples->getY() <
 		    (lbinstruments->getY() + lbinstruments_height)) {
 			lbinstruments->resize(lbinstruments->getWidth(),
@@ -3567,7 +3551,6 @@ void setMultisamplesEnabled(bool show)
 			                      lbinstruments_height);
 			buttonrenamesample->hide();
 		}
-		kb->hideKeyLabels();
 	}
 
 	tbmultisample->setCaption(show ? "-" : "+");
@@ -3636,6 +3619,19 @@ void handleToggleMapSamples(bool is_active)
 
 	state->map_samples = is_active;
 	kb->setInMappingMode(is_active);
+	updateKeyLabels();
+}
+
+void handleToggleMultiSample(bool on)
+{
+	multisamp_from_mapsamp = false;
+
+	if (!on) {
+		handleToggleMapSamples(false);
+		tbmapsamples->setState(false);
+	}
+
+	setMultisamplesEnabled(on);
 	updateKeyLabels();
 }
 

@@ -242,15 +242,15 @@ void Piano::setInMappingMode(bool instmap)
 
 void Piano::setKeyLabel(u8 key, char label)
 {
+	if (key_labels[key] == label) {
+		return;
+	}
+
 #ifdef NT_PLATFORM_NDS
 	if (key_labels_visible) {
 		eraseKeyLabel(key);
 	}
 #endif
-
-	if (key_labels[key] == label) {
-		return;
-	}
 
 	key_labels[key] = label;
 
