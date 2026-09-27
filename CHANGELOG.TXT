@@ -1,4 +1,4 @@
--- NitrousTracker v0.7.0 beta 4 (2026-08-30)
+-- NitrousTracker v0.7.0 beta 5 (2026-10-??)
 
 New features:
 
@@ -43,6 +43,13 @@ Fixes:
 - fixed default sample/instrument filenames containing prohibited characters
 - fixed exported .xm files including an unnecessary zero byte, causing problems with mmutil
 - fixed file corruption when out of memory and trying to save .xm files with 8-bit samples
+
+-- NitrousTracker v0.6.6 (2026-08-05)
+
+Fixes:
+
+- fix rare .xm corruption edge case when free memory is very low
+- fix rare potential record box crash on really short recordings
 
 -- NitrousTracker v0.6.5 (2026-07-17)
 
