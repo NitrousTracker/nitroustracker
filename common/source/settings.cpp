@@ -276,10 +276,10 @@ bool Settings::write(void)
 	boolToString(stereo_output, stereostring);
 	boolToString(freq_47khz, freqstring);
 	fprintf(conf,
-	        "Samplepath = %s\nSongpath = %s\nThemepath = %s\nHandedness = "
-	        "%s\nSample Preview = %s\nStereo Output = %s\n47kHz Output = "
+	        "Samplepath = %s\nSongpath = %s\nInstrumentpath = %s\nThemepath = %s\n"
+	        "Handedness = %s\nSample Preview = %s\nStereo Output = %s\n47kHz Output = "
 	        "%s\nLines Per Beat = %d\n",
-	        samplepath, songpath, themepath, hstring, prevstring, stereostring,
+	        samplepath, songpath, instpath, themepath, hstring, prevstring, stereostring,
 	        freqstring, lines_per_beat);
 	fclose(conf);
 	return true;
