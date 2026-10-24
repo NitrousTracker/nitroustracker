@@ -31,7 +31,7 @@
 #include <unistd.h>
 
 #if defined(NT_PLATFORM_NDS) || defined(NT_PLATFORM_3DS)
-#define SETTINGS_DEFAULT_DATA_DIR "fat:/data/NitroTracker"
+#define SETTINGS_DEFAULT_DATA_DIR SETTINGS_ROOT_PATH "data/NitroTracker"
 #else
 #define SETTINGS_DEFAULT_DATA_DIR "."
 #endif
@@ -46,13 +46,13 @@ Settings::Settings(char *launch_path, bool use_fat)
 	if (launch_path != NULL) {
 #if defined(NT_PLATFORM_NDS) || defined(NT_PLATFORM_3DS)
 		if (launch_path[0] == '/') {
-			snprintf(launchpath, SETTINGS_FILENAME_LEN, "fat:%s", launch_path);
+			snprintf(launchpath, SETTINGS_FILENAME_LEN, SETTINGS_ROOT_PATH "%s", launch_path + 1);
 		} else
 #endif
 			strlcpy(launchpath, launch_path, SETTINGS_FILENAME_LEN);
 	} else {
 #if defined(NT_PLATFORM_NDS) || defined(NT_PLATFORM_3DS)
-		strcpy(launchpath, "fat:/");
+		strcpy(launchpath, SETTINGS_ROOT_PATH);
 #else
 		launchpath[0] = 0;
 #endif
@@ -74,7 +74,7 @@ Settings::Settings(char *launch_path, bool use_fat)
 
 	if (fat == true) {
 		snprintf(configpath, SETTINGS_FILENAME_LEN, "%s/%s",
-		         launch_path != NULL ? launch_path : SETTINGS_DEFAULT_DATA_DIR,
+		         launch_path != NULL ? launchpath : SETTINGS_DEFAULT_DATA_DIR,
 		         SETTINGS_CONFIG_FILENAME);
 		configpath[SETTINGS_FILENAME_LEN - 1] = '\0';
 
