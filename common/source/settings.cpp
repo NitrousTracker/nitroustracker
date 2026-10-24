@@ -31,9 +31,9 @@
 #include <unistd.h>
 
 #if defined(NT_PLATFORM_NDS) || defined(NT_PLATFORM_3DS)
-#define SETTINGS_DEFAULT_DATA_DIR SETTINGS_ROOT_PATH "data/NitroTracker"
+#define SETTINGS_DEFAULT_DATA_DIR SETTINGS_ROOT_PATH "data/NitroTracker/"
 #else
-#define SETTINGS_DEFAULT_DATA_DIR "."
+#define SETTINGS_DEFAULT_DATA_DIR "./"
 #endif
 #define SETTINGS_CONFIG_FILENAME "NitroTracker.conf"
 
@@ -62,19 +62,17 @@ Settings::Settings(char *launch_path, bool use_fat)
 	// might never have snprintf called
 	configpath[0] = '\0';
 
-	snprintf(songpath, SETTINGS_FILENAME_LEN, "%s/", launchpath);
-	snprintf(samplepath, SETTINGS_FILENAME_LEN, "%s/", launchpath);
-	snprintf(instpath, SETTINGS_FILENAME_LEN, "%s/", launchpath);
-	snprintf(themepath, SETTINGS_FILENAME_LEN, "%s/", launchpath);
-
+	int launchpathlen = strlen(launchpath);
+	snprintf(songpath, SETTINGS_FILENAME_LEN, (launchpathlen && launchpath[launchpathlen - 1] == '/') ? "%s" : "%s/", launchpath);
 	songpath[SETTINGS_FILENAME_LEN - 1] = '\0';
-	samplepath[SETTINGS_FILENAME_LEN - 1] = '\0';
-	instpath[SETTINGS_FILENAME_LEN - 1] = '\0';
-	themepath[SETTINGS_FILENAME_LEN - 1] = '\0';
+
+	strcpy(samplepath, songpath);
+	strcpy(instpath, songpath);
+	strcpy(themepath, songpath);
 
 	if (fat == true) {
-		snprintf(configpath, SETTINGS_FILENAME_LEN, "%s/%s",
-		         launch_path != NULL ? launchpath : SETTINGS_DEFAULT_DATA_DIR,
+		snprintf(configpath, SETTINGS_FILENAME_LEN, "%s%s",
+		         launch_path != NULL ? songpath : SETTINGS_DEFAULT_DATA_DIR,
 		         SETTINGS_CONFIG_FILENAME);
 		configpath[SETTINGS_FILENAME_LEN - 1] = '\0';
 
