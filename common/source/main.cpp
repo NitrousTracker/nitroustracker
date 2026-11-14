@@ -3575,6 +3575,8 @@ void handleLerp(void)
 		return;
 	}
 
+	const bool preserve_eff = start.effect == end.effect;
+
 	u16 starteff = start.effect_param;
 	u16 endeff = end.effect_param;
 
@@ -3594,6 +3596,9 @@ void handleLerp(void)
 				} else {
 					cell.effect_param =
 					    maxeff - ((maxeff - mineff) * i++) / sel_height;
+				}
+				if (preserve_eff) {
+					cell.effect = start.effect;
 				}
 			}
 			*fill->ptr(0, row - sel_y1) = cell;
