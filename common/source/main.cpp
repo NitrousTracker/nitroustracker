@@ -1932,6 +1932,8 @@ void zapPatterns(void)
 	state->setCursorRow(0);
 	state->channel = 0;
 
+	pv->clearSelection();
+
 	handlePotLenChange();
 
 	redraw_main_requested = false;
