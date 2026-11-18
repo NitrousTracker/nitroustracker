@@ -23,6 +23,9 @@
  */
 
 #include "settings.h"
+#if defined(NT_PLATFORM_NDS)
+#include <fat.h>
+#endif
 #include "ntxm/ntxmtools.h"
 #include "tools.h"
 #include <algorithm>
@@ -44,7 +47,11 @@ Settings::Settings(char *launch_path, bool use_fat)
       freq_47khz(false), lines_per_beat(8), fat(use_fat), changed(false)
 {
 	if (launch_path != NULL) {
-#if defined(NT_PLATFORM_NDS) || defined(NT_PLATFORM_3DS)
+#if defined(NT_PLATFORM_NDS)
+		if (launch_path[0] == '/') {
+			snprintf(launchpath, SETTINGS_FILENAME_LEN, "%s%s", fatGetDefaultDrive(), launch_path + 1);
+		} else
+#elif defined(NT_PLATFORM_3DS)
 		if (launch_path[0] == '/') {
 			snprintf(launchpath, SETTINGS_FILENAME_LEN, SETTINGS_ROOT_PATH "%s", launch_path + 1);
 		} else
