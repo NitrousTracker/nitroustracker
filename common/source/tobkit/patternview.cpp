@@ -280,11 +280,11 @@ void PatternView::draw(void)
 			// Clamp to screen
 			if (sel_screen_x1 < 0)
 				sel_screen_x1 = 0;
-			else if (sel_screen_x2 > getEffectiveWidth())
+			if (sel_screen_x2 > getEffectiveWidth())
 				sel_screen_x2 = getEffectiveWidth();
 			if (sel_screen_y1 < 0)
 				sel_screen_y1 = 0;
-			else if (sel_screen_y2 > height)
+			if (sel_screen_y2 > height)
 				sel_screen_y2 = height;
 
 			// Draw
