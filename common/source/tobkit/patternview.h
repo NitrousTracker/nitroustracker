@@ -268,7 +268,7 @@ private:
 				eff = NOTEPORTA;
 
 			if (eff != 0) {
-				drawSmallChar(hex_chars[eff], realx + PV_CELL_VOL_X, realy,
+				drawSmallChar(eff, realx + PV_CELL_VOL_X, realy,
 				              effectcol);
 				drawSmallChar(hex_chars[vol & 0x0F],
 				              realx + PV_CELL_VOL_X + PV_CHAR_WIDTH, realy,

@@ -38,7 +38,7 @@ static const char *button_captions[16] = {
     "2XX: PORTAMENTO DOWN",
     "3XX: PORTAMENTO TO NOTE",
     "4XY: VIBRATO",
-    "5XY: PORTAMENTO TO NOTE \x60 VOLUME SLIDE",
+    "5XY: PORTAMENTO TO NOTE + VOLUME SLIDE",
     "6XY: VIBRATO WITH VOLUME SLIDE",
     "7XY: TREMOLO",
     "8XX: SET NOTE PANNING POSITION",
@@ -48,7 +48,7 @@ static const char *button_captions[16] = {
     "CXX: SET NOTE VOLUME",
     "DXX: PATTERN BREAK",
     "UNUSED",
-    "FXX: SET SONG SPEED \x60 BPM"
+    "FXX: SET SONG SPEED + BPM"
 };
 
 static const char *E_captions[16] = {
