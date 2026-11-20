@@ -357,7 +357,7 @@ void updateKeyLabels(void)
 {
 	if (tbmultisample->getState() || state->map_samples) {
 		if (fxkb->is_visible())
-			handleToggleEffectsVisibility(false);
+			tbeffects->setState(false);
 
 		drawSampleNumbers();
 		kb->showKeyLabels();
